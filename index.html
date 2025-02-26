@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steganography App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script async src="https://docs.opencv.org/4.10.0/opencv.js" onload="onOpenCvReady();"
+        type="text/javascript"></script>
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+        }
+
+        .img-fluid {
+            max-width: 100%;
+            height: auto;
+        }
+
+        #encryptImagePreview,
+        #decryptImagePreview,
+        #encryptedImage {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Secure Data Hiding in Image Using Steganography</h1>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="encrypt-tab" data-bs-toggle="tab" data-bs-target="#encrypt-tab-pane" type="button" role="tab" aria-controls="encrypt-tab-pane" aria-selected="true">Encrypt</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="decrypt-tab" data-bs-toggle="tab" data-bs-target="#decrypt-tab-pane" type="button" role="tab" aria-controls="decrypt-tab-pane" aria-selected="false">Decrypt</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <!-- Encrypt Tab -->
+            <div class="tab-pane fade show active" id="encrypt-tab-pane" role="tabpanel" aria-labelledby="encrypt-tab" tabindex="0">
+                <div class="mb-5 mt-5">
+                    <input type="file" id="encryptImageUpload" accept="image/*" class="form-control">
+                </div>
+                <div class="text-center mb-3">
+                    <img id="encryptImagePreview" class="img-fluid" style="display: none;">
+                </div>
+                <div class="mb-3">
+                    <input type="text" id="secretMessage" placeholder="Enter secret message" class="form-control">
+                </div>
+                <div class="error-message" id="encryptErrorMessage"></div>
+                <div class="text-center mb-3">
+                    <button id="encryptButton" class="btn btn-primary">Encrypt Message</button>
+                </div>
+                <div class="text-center mb-3" style="display: none;" id="originalImageSection">
+                    <h2>Original Image</h2>
+                    <canvas id="originalCanvas" class="border" style="display: none;"></canvas>
+                </div>
+                <div class="text-center mb-3" id="encryptedImageContainer" style="display: none;">
+                    <h2>Encrypted Image</h2>
+                    <img id="encryptedImage" class="img-fluid">
+                </div>
+                <div class="text-center mb-3" id="downloadButtonContainer" style="display: none;">
+                    <button id="downloadButton" class="btn btn-secondary">Download Encrypted Image</button>
+                </div>
+            </div>
+            <!-- Decrypt Tab -->
+            <div class="tab-pane fade" id="decrypt-tab-pane" role="tabpanel" aria-labelledby="decrypt-tab" tabindex="0">
+                <div class="mt-5">
+                    <input type="file" id="decryptImageUpload" accept="image/*" class="form-control">
+                </div>
+                <div class="d-flex justify-content-center align-items-center mt-4 mb-3">
+                    <img id="decryptImagePreview" class="img-fluid" style="display: none;">
+                </div>
+                <div class="error-message" id="decryptErrorMessage"></div>
+                <div class="text-center mb-3">
+                    <button id="decryptButton" class="btn btn-success">Decrypt Message</button>
+                </div>
+                <div class="mb-3" id="decryptedMessageContainer" style="display: none;">
+                    <textarea id="decryptedMessage" rows="4" class="form-control" readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="app.js"></script>
